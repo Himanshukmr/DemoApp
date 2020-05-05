@@ -1,0 +1,174 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+
+
+<html>
+<head>
+<link rel="stylesheet" href="css/style.css">
+<title>Zoo Application</title>
+<style>
+.flex-container {
+	display: flex;
+}
+
+.flex-child {
+	flex: 1;
+	border: 2px solid yellow;
+}
+
+.flex-child:first-child {
+	margin-right: 20px;
+}
+
+.circle {
+  background: #456BD9;
+  border: 0.1875em solid #0F1C3F;
+  border-radius: 50%;
+  box-shadow: 0.375em 0.375em 0 0 rgba(15, 28, 63, 0.125);
+  height: 5em;
+  width: 5em;
+}
+</style>
+</head>
+
+
+<body ng-app="myApp" ng-controller="myController" data-ng-init="init()">
+	<script src="https://code.angularjs.org/1.6.9/angular.js"></script>
+	<script src="js/animalController.js"></script>
+	<link rel='stylesheet'
+		href='https://codepedia.info/wp-content/themes/themevicky/css/editor.css'
+		type='text/css' />
+		
+	
+	<h1 align='center'>Animal Application :</h1>
+	<br />
+
+	<div class="flex-container">
+
+		<div class="flex-child magenta">
+			<form ng-submit="addAnimal()">
+				<input type="button" value="ADD" ng-click="showHideAdd()" /> <br />
+				<div ng-show="isVisibleAdd">
+					<div>
+						<div>
+							Type :<select ng-model="form.type"
+								ng-options="type as type for type in listOfType"
+								ng-change="getSpecie()" class="form-control" ng-required="true"
+								id="animalType">
+								<option value="">--Type--</option>
+
+							</select> Specie :<select ng-model="form.specie"
+								ng-options="specieType as specieType for specieType in listOfSpecie"
+								class="form-control" ng-required="true" id="specieType">
+								<option value="">--Specie--</option>
+
+							</select>
+						</div>
+						<br /> <br />
+						<div>
+							Gender :<select ng-model="form.gender"
+								ng-options="specieType as specieType for specieType in animalGender"
+								class="form-control" ng-required="true" id="animalGender">
+								<option value="">--Gender--</option>
+
+							</select> Name : <input type="text" name="animal name"
+								ng-model="form.name">
+						</div>
+						<br /> <br /> <input type="submit" value="Add Animal" />
+						 <span style="color:red">{{msg}}</span>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="flex-child green">
+			<input type="button" value="VIEW ANIMAL COUNT"
+				ng-click="viewAnimalCount()" /> <br />
+			<div ng-show="isVisibleAnimalcount">
+
+				<h3>total count : {{totalCount}}</h3>
+
+				<table border="1">
+					<tr>
+						<th>Bird Count</th>
+						<th>Mammal Count</th>
+						<th>Reptile Count</th>
+					</tr>
+					<tr>
+						<td>{{(totalAnimalInZoo|filter:'Bird').length}}</td>
+						<td>{{(totalAnimalInZoo|filter:'Mammal').length}}</td>
+						<td>{{(totalAnimalInZoo|filter:'Reptile').length}}</td>
+					</tr>
+				</table>
+				
+				<!-- <div class="circle"></div> -->
+			</div>
+		</div>
+
+		<div class="flex-child green">
+			<input type="button" value="VIEW" ng-click="viewAllAnimal()" /> <br />
+			<div ng-show="isVisibleAnimal">
+
+				<div>
+					<h3>Filtering By</h3>
+
+					<!-- <input type="checkbox" name="test1" ng-model="type">TYPE <br />
+			 <input type="checkbox" name="test1" ng-model="specie">SPECIE <br />
+			 <input type="checkbox" name="test1" ng-model="name" data-ng-model='search.type1'>NAME   <br /> <br /> -->
+
+					<input type="checkbox" name="value1" ng-click="getdetails('type')" />TYPE
+					<br /> <input type="checkbox" name="value1"
+						ng-click="getdetails('specie')" />SPECIE <br /> <input
+						type="checkbox" name="value1" ng-click="getdetails('name')" />
+					Name<br /> <br />
+
+					<p>
+						<input type="text" ng-model="test"> Insert text
+					</p>
+
+				</div>
+
+				<table class="table table-stripe">
+
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Name</th>
+							<th>Specie</th>
+							<th>TYPE</th>
+							<th>Gender</th>
+							<th>Move</th>
+							<th>Sound</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr ng-repeat="animal in animals | filter : test">
+							<td>{{ animal.id }}</td>
+							<td>{{ animal.name }}</td>
+							<td>{{ animal.specie }}</td>
+							<td>{{ animal.type }}</td>
+							<td>{{ animal.gender }}</td>
+							<td>{{ animal.animalMove }}</td>
+							<td>{{ animal.animalSound }}</td>
+							<td>
+								<button class='btn btn-danger'
+									ng-click="deleteRow(animal.exhibitionNumb)">Delete</button>
+							</td>		
+							<td>
+									<button class='btn btn-danger'
+									ng-click="EditRow(animal.exhibitionNumb)">Edit</button>
+							</td>
+						</tr>
+					<tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+
+
+</body>
+</html>
